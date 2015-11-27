@@ -119,7 +119,8 @@ Add these lines into your build.sbt:
 // Autogenerate Slick models
 slick <<= slickCodeGenTask
 
-sourceGenerators in Compile <+= slickCodeGenTask
+//Used Code generator during compilation
+//sourceGenerators in Compile <+= slickCodeGenTask
 
 lazy val slick = TaskKey[Seq[File]]("gen-tables")
 lazy val slickCodeGenTask = (sourceManaged, dependencyClasspath in Compile, runner in Compile, streams) map { (dir, cp, r, s) =>
@@ -136,6 +137,13 @@ lazy val slickCodeGenTask = (sourceManaged, dependencyClasspath in Compile, runn
   Seq(file(fname))
 }
 ```
+
+We created a SBT comand which create the file Tables.scala where there are all BDD models. The SBT command is :
+
+```shell
+sbt gen-tables
+```
+
 
 > Tables.scala will be created into the path : *target/scala-2.11/src_managed/app/models/*
 
